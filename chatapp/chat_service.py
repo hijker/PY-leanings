@@ -35,7 +35,7 @@ class ChatServ:
         answer = ""
         
         for event in response :
-            print(event)
+            # print(event)
             
             if event.type == "response.output_text.delta":
                 answer += event.delta
