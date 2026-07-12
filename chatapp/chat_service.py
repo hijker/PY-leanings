@@ -28,11 +28,24 @@ class ChatServ:
         })
         response = client.responses.create(
             model="llama-3.3-70b-versatile",
-            input=self.messages
+            input=self.messages,
+            stream=True
         )
+        
+        answer = ""
+        
+        for event in response :
+            print(event)
+            
+            if event.type == "response.output_text.delta":
+                answer += event.delta
+                yield event.delta
+
+            
+            
         # print (response.model_dump_json(indent=2))
         self.messages.append({
             "role":"assistant",
-            "content" : response.output_text
+            "content" : answer
         })
-        return response.output_text
+        return answer
